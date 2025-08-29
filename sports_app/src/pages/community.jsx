@@ -1,5 +1,5 @@
 import React from 'react'
-import ComTabs from './com_tabs'
+import ComTabs from '../components/com_tabs'
 
 const Community = () => {
     const stats = [
