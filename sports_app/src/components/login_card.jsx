@@ -1,95 +1,111 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const login_card = () => {
     const [formData, setFormData] = useState({
-        username: '',
+        email: '',
         password: ''
-    })
+    });
     
-    const [errors, setErrors] = useState({})
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [showPassword, setShowPassword] = useState(false)
+    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     // Simple validation function - only check for empty inputs
     const validateField = (value, fieldName) => {
         if (!value || value.trim() === '') {
-            return `${fieldName} is required`
+            return `${fieldName} is required`;
         }
-        return ''
-    }
+        return '';
+    };
 
     // Handle input changes
     const handleInputChange = (e) => {
-        const { name, value } = e.target
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
-        }))
+        }));
 
         // Clear error when user starts typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
                 [name]: ''
-            }))
+            }));
         }
-    }
+    };
 
     // Handle input blur (validate on blur)
     const handleInputBlur = (e) => {
-        const { name, value } = e.target
-        const fieldName = name === 'username' ? 'Username' : 'Password'
-        const error = validateField(value, fieldName)
+        const { name, value } = e.target;
+        const fieldName = name === 'email' ? 'Email' : 'Password';
+        const error = validateField(value, fieldName);
 
         setErrors(prev => ({
             ...prev,
             [name]: error
-        }))
-    }
+        }));
+    };
 
     // Handle form submission
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         
         // Validate all fields
-        const usernameError = validateField(formData.username, 'Username')
-        const passwordError = validateField(formData.password, 'Password')
+        const emailError = validateField(formData.email, 'Email');
+        const passwordError = validateField(formData.password, 'Password');
         
-        const newErrors = {}
-        if (usernameError) newErrors.username = usernameError
-        if (passwordError) newErrors.password = passwordError
+        const newErrors = {};
+        if (emailError) newErrors.email = emailError;
+        if (passwordError) newErrors.password = passwordError;
         
-        setErrors(newErrors)
+        setErrors(newErrors);
         
         // If there are errors, don't submit
         if (Object.keys(newErrors).length > 0) {
-            return
+            return;
         }
         
-        setIsSubmitting(true)
+        setIsSubmitting(true);
         
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            console.log('Form submitted:', formData)
-            // Add your actual login logic here
-            alert('Login successful!')
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                navigate('/community');
+            } else {
+                const errorData = await response.json();
+                setErrors(prev => ({
+                    ...prev,
+                    submit: errorData.message || 'Login failed. Please try again.'
+                }));
+            }
         } catch (error) {
-            console.error('Login error:', error)
+            console.error('Login error:', error);
             setErrors(prev => ({
                 ...prev,
                 submit: 'Login failed. Please try again.'
-            }))
+            }));
         } finally {
-            setIsSubmitting(false)
+            setIsSubmitting(false);
         }
-    }
+    };
 
     // Check if form is valid
     const isFormValid = () => {
-        return formData.username.trim() && formData.password.trim() && 
-               !errors.username && !errors.password
-    }
+        return formData.email.trim() && formData.password.trim() && 
+               !errors.email && !errors.password;
+    };
 
     return (
         <div className="card w-full max-w-sm shadow-xl bg-neutral-900">
@@ -97,24 +113,24 @@ const login_card = () => {
                 <h2 className="card-title text-center mb-6 text-white">Login</h2>
 
                 <form className="space-y-4" onSubmit={handleSubmit}>
-                    {/* Username */}
+                    {/* Email */}
                     <div className="form-control">
                         <label className="label">
-                            <span className="label-text text-white">Username</span>
+                            <span className="label-text text-white">Email</span>
                         </label>
                         <input
-                            type="text"
-                            name="username"
-                            value={formData.username}
+                            type="email"
+                            name="email"
+                            value={formData.email}
                             onChange={handleInputChange}
                             onBlur={handleInputBlur}
-                            placeholder="Enter your username"
-                            className={`input bg-black text-white ${errors.username ? 'border-red-500' : ''}`}
+                            placeholder="Enter your email"
+                            className={`input bg-black text-white ${errors.email ? 'border-red-500' : ''}`}
                             required
                         />
-                        {errors.username && (
+                        {errors.email && (
                             <label className="label">
-                                <span className="label-text-alt text-red-400">{errors.username}</span>
+                                <span className="label-text-alt text-red-400">{errors.email}</span>
                             </label>
                         )}
                     </div>
@@ -179,7 +195,7 @@ const login_card = () => {
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default login_card
+export default login_card;

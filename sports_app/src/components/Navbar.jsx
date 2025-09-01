@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const location = useLocation()
-    const navigate = useNavigate()
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const isActive = (path) => {
-        return location.pathname === path
-    }
+        return location.pathname === path;
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/');
+    };
 
     const navItems = [
         { name: 'Community', path: '/community' },
         { name: 'Dashboard', path: '/dashboard' },
         { name: 'Attendance', path: '/attendance' },
         { name: 'Fee Collection', path: '/fee_collection' },
-    ]
+    ];
 
     return (
         <nav className="bg-neutral-900 border-b border-gray-800 absolute top-0 z-50 flex w-screen">
@@ -63,7 +68,12 @@ const Navbar = () => {
                         </button>
                         </Link>
                         
-
+                        <button
+                            onClick={handleLogout}
+                            className="text-gray-300 hover:text-white p-2 rounded-md hover:bg-gray-700 transition-all"
+                        >
+                            Logout
+                        </button>
                         {/* User Avatar */}
                         <div className="hidden md:flex items-center space-x-2">
                             <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
@@ -108,6 +118,15 @@ const Navbar = () => {
                                     {item.name}
                                 </Link>
                             ))}
+                             <button
+                                onClick={() => {
+                                    handleLogout();
+                                    setIsMenuOpen(false);
+                                }}
+                                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+                            >
+                                Logout
+                            </button>
                             {/* Mobile User Info */}
                             <div className="flex items-center space-x-2 px-3 py-2 border-t border-gray-800 mt-4">
                                 <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
@@ -120,7 +139,7 @@ const Navbar = () => {
                 )}
             </div>
         </nav>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;

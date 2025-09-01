@@ -1,17 +1,27 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-import { Outlet} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import Navbar from './components/Navbar';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-const body = () => {
-    const shouldShowNavbar = location.pathname !== '/'
-  return (
-    <div className='flex bg-neutral-900 min-h-screen min-w-screen'>
+const Body = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const shouldShowNavbar = location.pathname !== '/';
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token && location.pathname !== '/') {
+            navigate('/');
+        }
+    }, [location, navigate]);
+
+    return (
+        <div className='flex bg-neutral-900 min-h-screen min-w-screen'>
             {shouldShowNavbar && <Navbar />}
             <div className="flex-grow mt-10">
                 <Outlet />
             </div>
         </div>
-  )
-}
+    );
+};
 
-export default body
+export default Body;
