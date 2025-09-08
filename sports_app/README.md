@@ -1,7 +1,7 @@
-Sport Management Frontend
+# Sport Management Frontend
 This is the official frontend application for the Sport Management platform. It provides a user-friendly interface for athletes and administrators to interact with the backend services, including managing profiles, tracking attendance, and handling fees.
 
-Key Features
+# Key Features
 User Dashboard: A personalized dashboard for athletes to view their stats and upcoming events.
 
 Admin Panel: A comprehensive interface for administrators to manage users, track attendance, and oversee fee payments.
@@ -16,24 +16,24 @@ Fee Management: Interface for users to view their fee status and for admins to r
 
 Responsive Design: A clean, modern UI that works seamlessly across desktops, tablets, and mobile devices.
 
-Prerequisites
+## Prerequisites
 Node.js (v14 or higher)
 
 npm or yarn
 
 A running instance of the Sport Management Backend API.
 
-Installation
+### Installation
 Clone the repository
 
 git clone <repository-url>
 cd sport-management-fe
 
-Install dependencies
+### Install dependencies
 
 npm install
 
-Environment Configuration
+### Environment Configuration
 
 Create a .env file in the root of the project. This file will tell your frontend application where to find the backend API.
 
