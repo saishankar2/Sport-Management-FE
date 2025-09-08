@@ -49,31 +49,9 @@ Run the application
 # This will start the development server
 npm start
 
-The application should now be running on http://localhost:3001 (or another port specified by your development server).
+The application should now be running on http://localhost:3000 (or another port specified by your development server).
 
-Project Structure
-A typical structure for a modern frontend application might look like this:
-
-.
-├── public/
-│   ├── index.html
-│   └── favicon.ico
-├── src/
-│   ├── assets/         # Images, fonts, and other static files
-│   ├── components/     # Reusable UI components (buttons, forms, etc.)
-│   ├── contexts/       # React contexts for state management (e.g., AuthContext)
-│   ├── hooks/          # Custom React hooks
-│   ├── pages/          # Main page components (Dashboard, Login, etc.)
-│   ├── services/       # API call functions (e.g., authService.js)
-│   ├── styles/         # Global styles and CSS files
-│   ├── utils/          # Utility functions
-│   ├── App.js          # Main application component
-│   └── index.js        # Entry point of the application
-├── .env                # Environment variables
-├── package.json
-└── README.md
-
-Connecting to the Backend
+#### Connecting to the Backend
 For the frontend application to function correctly, it must be able to communicate with the backend API.
 
 API Base URL: All API requests are configured to use the REACT_APP_API_URL from your .env file.
