@@ -5,33 +5,10 @@
 
 @custom-variant hover (&:hover);
 
-.element::-webkit-scrollbar {
-  display: none;
-}
-
-.element {
-  scrollbar-width: none; /* For Firefox */
-}
-
-.element {
-  -ms-overflow-style: none;  /* For Internet Explorer and Edge */
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-display: none;
-}
-
-@layer utilities {
-  /* Class to hide the scrollbar */
-  .scrollbar-hide {
-    /* For Firefox */
-    scrollbar-width: none;
-    /* For Internet Explorer and Edge */
-    -ms-overflow-style: none;
-  }
-
-  /* For Chrome, Safari, and Opera */
-  .scrollbar-hide::-webkit-scrollbar {
+body::-webkit-scrollbar{
     display: none;
-  }
+}
+
+div::-webkit-scrollbar{
+    display: none;
 }

@@ -50,7 +50,7 @@ const MarkAttendance = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:3000/api/user/get-users', {
+                const response = await fetch('http://localhost:3000/api/attendance/overview/daily', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -59,15 +59,10 @@ const MarkAttendance = () => {
                 if (response.ok) {
                     const data = await response.json();
                     // Transform the fetched user data to match the component's expected format
-                    const formattedAthletes = data.data.map(user => ({
-                        id: user._id,
-                        name: `${user.firstName} ${user.lastName}`,
-                        team: user.role,
-                        avatar: user.firstName.charAt(0).toUpperCase(),
-                        status: 'Pending',
-                    }));
-                    setAthletes(formattedAthletes);
-                } else {
+                    setAthletes(data.data)
+                }
+                    
+                else {
                     console.error('Failed to fetch users');
                     showNotification('Failed to load athlete data.', 'error');
                 }
@@ -140,8 +135,8 @@ const MarkAttendance = () => {
     // Helper to get the right color for the status badge
     const getStatusBadge = (status) => {
         switch (status) {
-            case 'Present': return 'badge-success';
-            case 'Absent': return 'badge-error';
+            case 'present': return 'badge-success' ;
+            case 'absent': return 'badge-error';
             default: return 'badge-ghost';
         }
     };
@@ -198,19 +193,19 @@ const MarkAttendance = () => {
                             {/* Status and Actions */}
                             <div className="flex items-center justify-center sm:justify-end gap-x-4 gap-y-2 w-full sm:w-auto flex-wrap">
                                 <div className="w-24 text-center">
-                                     <span className={`badge ${getStatusBadge(athlete.status)}`}>{athlete.status}</span>
+                                     <span className={`badge ${getStatusBadge(athlete.status)}`}>{athlete.status.charAt(0).toUpperCase() + athlete.status.slice(1)}</span>
                                 </div>
                                 <div className="flex gap-2">
                                     <button 
                                         className="btn btn-sm btn-success"
-                                        onClick={() => handleSetStatus(athlete.id, 'Present')}
+                                        onClick={() => handleSetStatus(athlete.id, 'present')}
                                         disabled={athlete.status !== 'Pending'}
                                     >
                                         Present
                                     </button>
                                     <button 
                                         className="btn btn-sm btn-error"
-                                        onClick={() => handleSetStatus(athlete.id, 'Absent')}
+                                        onClick={() => handleSetStatus(athlete.id, 'absent')}
                                         disabled={athlete.status !== 'Pending'}
                                     >
                                         Absent

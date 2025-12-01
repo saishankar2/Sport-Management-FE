@@ -7,6 +7,7 @@ import Dashboard from './pages/dashboard';
 import Body from './body';
 import Attendance from './pages/attendance';
 import Mark_attendance from './pages/mark_attendance';
+import Fee_collection from './pages/fee_collection';
 
 const PrivateRoute = () => {
   const token = localStorage.getItem('token');
@@ -40,6 +41,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/mark_attendance" element={<Mark_attendance />} />
+            <Route path='/fee_collection' element={<Fee_collection/>}/>
           </Route>
         </Route>
       </Routes>
